@@ -3,10 +3,12 @@
 
 # Plant Disease Prediction Analysis Based on R
 - [第一章 前言](#第一章-前言)
-
 - [第二章 技术路线](#第二章-技术路线)
 - [第三章 预处理](#第三章-预处理)
 - [第四章 数据分析](#第四章-数据分析)
+- [第五章 可视化](#第五章-可视化)
+
+
 
 ## 摘要
 通过收集和预处理植物病害相关的数据，如气象条件、土壤性质等，项目应用R的各种分析工具进行数据清洗、特征提取和可视化。在建模阶段，使用R中的机器学习算法，如随机森林、xgboost，进行模型训练和评估。并使用R进行可视化。
@@ -20,11 +22,15 @@ Through collecting and preprocessing data related to plant diseases, including m
 ### 1.1研究背景
 
 
-植物在生长过程中容易受到包括病原真菌和卵菌在内的多种病原体的侵害，进而发生植物病害。病原真菌如锈菌、白粉菌以及卵菌中的疫霉菌和霜霉菌是导致植物病害的主要原因之一。锈病、白粉病和叶斑病等是植物病害的主要类型。锈病通常表现为叶片和茎秆上的小斑点，严重时会导致叶片脱落和植株枯死。白粉病则主要表现为植物表面覆盖一层白色粉状物，严重影响光合作用。叶斑病导致叶片上出现各种颜色的斑点，逐渐扩散并导致叶片枯萎。
+植物在生长过程中容易受到包括病原真菌和卵菌在内的多种病原体的侵害，进而引起形态异常、功能受损和生理受限，发生植物病害。病原真菌如锈菌、白粉菌以及卵菌中的疫霉菌和霜霉菌是导致植物病害的主要原因之一。锈病、白粉病和叶斑病等是植物病害的主要类型。锈病通常表现为叶片和茎秆上的小斑点，严重时会导致叶片脱落和植株枯死。白粉病则主要表现为植物表面覆盖一层白色粉状物，严重影响光合作用。叶斑病导致叶片上出现各种颜色的斑点，逐渐扩散并导致叶片枯萎。
 
-最新研究表明，气候变化和全球变暖正在加剧这些病害的发生和传播。温暖潮湿的环境有利于病原体的繁殖和扩散，导致病害在更大范围内更频繁地发生。例如，科学家发现全球变暖导致的温度升高和降水模式的改变，正促使一些病原真菌和卵菌向新的地理区域扩展，这些区域以前并不适合它们的生存和繁殖。气候变化还影响了植物的生理状态，使其更易受到病害侵染。
+病原物大体分为两类:一类病原物杀死寄主，然后从上面获得营养物质，即所谓的死体营养寄生物; 另一类是需要获得寄主以完成它们的生活史，即活体营养寄生物。
+活体病原菌的一个短暂阶段代表了半活体营养病原菌。这类真菌在开始转向杀死寄主之前具有一个活体营养生长阶段。和半活体营养病原菌相比，专性活体病原菌需要活的寄主植物完成生活史。主要的植物病害包括锈病、白粉病、叶斑病和其他病害。
+
+最新研究表明，气候变化和全球变暖导致温度的升高和部分地区降水格局的改变，正在加剧这些病害的发生和传播。温暖潮湿的环境有利于病原体的繁殖和扩散，导致病害在更大范围内更频繁地发生。例如，科学家发现全球变暖导致的温度升高和降水模式的改变，正促使一些病原真菌和卵菌向新的地理区域扩展，这些区域以前并不适合它们的生存和繁殖。气候变化还影响了植物的生理状态，使其更易受到病害侵染。实际上 , 温度和降水是影响叶片真菌病害的主要环境因子。 叶片真菌病害往往在高温、高湿的环境下较为严重。根据样点，使用机器学习、空间插值等方法预测全国病害有助于更好地认识到中国范围内病害的空间格局。
 
 植物病害对全球农业生产力和粮食安全构成重大挑战。及时准确地预测这些病害对于有效的病害管理和减轻策略至关重要。近年来，数据收集技术的进步促使了多样化数据集的获取，涵盖了气象条件、土壤特性、植物物种信息以及植物病害严重程度。
+
 
 ### 1.2国内外研究现状
 
@@ -76,7 +82,6 @@ React 的另一个显著特点是虚拟 DOM（Virtual DOM）。它通过在内�
 React 不仅可以用于 Web 应用程序的开发，还可以用于移动应用程序开发（React Native）以及静态网站的生成（Next.js）。由于其灵活性和高效性，React 在现代前端开发中得到了广泛应用，并成为了构建复杂用户界面的首选工具之一。
 
 
-
 ### 2.3后端
 
 #### 2.3.1 后端简介
@@ -117,6 +122,7 @@ MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结
 
 ### 2.5 数据的采集方法
 
+包括直接下载，调用api，和直接爬取数据。
 
 
 
@@ -132,14 +138,58 @@ MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结
 
 
 ### 3.2 特征选择
+#### 3.2.1 需求分析
 我们拿到的数据集，如果是excel支持的格式，
 往往包含很多列，但实际上用到的可能就只有几列。
 因此，我们往往要选取数据集的子列作为我们分析的内容。
 这一步主观性比较大，因为我们往往是根据主观意愿来选取我们要分析的内容。
 如果需要选取数据集的列比较少，或者都位于excel表的一侧我们可以较为快速地选取。
 
+#### 3.2.2 可复用选取特征的网页搭建
+
+
+利用react可以轻松构建这样一个可复用的react项目。
+先将数据上传，
+根据需求选择子列，当选择的列较多时通过点击"全选/全不选"按钮进行全选或全不选，然后下载。
+
+后端会将上传的文件保存在本地。
+```
+upload_path = file_manager.save_uploaded_file(file)
+```
+
+然后将文件的列名返回给前端
+
+```
+df = pd.read_excel(upload_path)
+columns = [{'key': str(i), 'name': col, 'editable': True} for i, col in enumerate(df.columns)]
+
+return {"columns": columns, "filename": os.path.splitext(file.filename)[0]}
+```
+
+下载时，后端会读取需要下载的文件,根据列名取出excel中相应的列，并返回前端。
+
+```
+selected_file = os.path.join(download_subdir, file_list[0])
+df = pd.read_excel(selected_file)
+selected_df = df[columns]
+
+output_path = os.path.join(file_manager.upload_dir, f"selected_{filename}.xlsx")
+selected_df.to_excel(output_path, index=False)
+
+return FileResponse(output_path, filename=f"selected_{filename}.xlsx", media_type='application/octet-stream')
+```
+下载的文件将会保存在浏览器默认的保存路径下。
+![alt text](pic/2f6eee87f07f43a74892d29c453584c.png)
+
+
 
 ### 3.2 收集数据
+
+
+我们可以使用R调用高德地图的Api和爬取阿里云地图的json文件。
+更加清晰地展示我们的样点信息。
+
+
 
 
 
@@ -148,3 +198,55 @@ MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结
 
 
 ## 第四章 数据分析
+
+
+### 4.1 模型的构建
+
+在R中可以加载randomForest包完成随机森林的构建
+```
+randomForest(formula, data=NULL, ..., subset, na.action=na.fail)
+```
+
+## 第五章 可视化
+
+
+
+#### 5.1 展示样点信息
+
+
+![alt text](pic/yangdai2.png)
+
+
+
+
+### 5.1 在R中绘图
+
+在R中可以使用ggplot包来绘图。
+```
+ggplot(data = NULL, mapping = aes(), ..., environment = parent.frame())
+```
+
+
+
+## 参考文献
+
+
+Hadley Wickham.(2023)R for Data Science Import, Tidy, Transform, Visualize, and Model Data. O’Reilly, Sebastopol, CA.
+
+Antonanzas-Torres, F. (2014). Geostatistics examples in R: Ordinary kriging, universal kriging and inverse distance weighted.
+
+Ledell, E., Gill, N., Aiello, S., Fu, A., Candel, A., Click, C., Kraljevic, T.,Nykodym, T., Aboyoun, P., & Kurka, M. (2020)interface for the‘H2O’ scalable machine learning platform
+Malczewski, J., & Rinner, C. (2016). Multicriteria decision analysis in geographic information science. New York: Springer.
+
+Pebesma, E. J., & Wesseling, C. G. (1998). Gstat: a program for geostatistical modelling, prediction and simulation. Computers & Geosciences, 24(1), 1731.
+Sagheb-Talebi, K., Pourhashemi, M., & Sajedi, T. (2014). Forests of Iran: A treasure from the past, a hope forthe future. Springer.
+
+Williams, G. (2011). Data mining with rattle and R. The art of excavating data for knowledge discovery series(1st ed.). New York: Springer-Verlag.
+
+Liu X, Chen LF, Zhou SR (2020) The relationship between biodiversity and infectious disease: Progress, challenge and perspective. Biodiversity Science, 28, 1376–1390.
+
+Felicia Keesing (2010) Impacts of biodiversity on the emergence and transmission of infectious diseases Nature
+
+B.M.库克(1988)植物病害流行学(原书第二版) 科学出版社 
+
+刘向, 刘木, 肖瑶 (2022)叶片病原真菌对植物种共存的影响 : 进展与挑战 兰州大学草种创新与地农业生态系统全国重点实验室 生态学院 , 兰州 730000 
