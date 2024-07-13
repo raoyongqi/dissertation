@@ -42,6 +42,14 @@ Anne Ebeling等的研究通过对不同植物类型在不同年均温度和年�
 
 Deepa S. Pureswaran等人探讨了气候变化对森林害虫的影响。他们综合了2013-2017年间的最新文献，包括之前的相关综述，深入讨论了气候变化如何影响昆虫的分布范围、数量、森林生态系统以及昆虫群落的影响。研究发现，气候变化可以促进害虫爆发或破坏食物链，从而减少害虫爆发的严重程度。通过广义线性模型和大尺度空间分析，研究揭示了气候变化对不同昆虫类群的地理分布和生态影响。
 
+### 1.3 研究区概况
+
+青藏高原是世界上最高和最大的高原，被誉为“世界屋脊”和“第三极”。它主要包括了藏高原及其周围的三大山脉：喜马拉雅山脉、横断山脉和中亚山脉。青藏高原的地形复杂多样，以高山、冰川、湖泊和河流为主要特征。
+
+喜马拉雅山脉是世界上最高的山脉，拥有众多海拔超过8000米的高峰，其中包括世界最高峰珠穆朗玛峰。喜马拉雅山脉的存在极大地影响了青藏高原的气候和水文状况。横断山脉则位于青藏高原的东南部，其纵向延伸的山脉和峡谷构成了复杂的地形。中亚山脉包括天山山脉、帕米尔高原等，分布在青藏高原的西北部，连接了中亚地区。
+
+青藏高原的水文资源丰富，许多大河的源头都位于此，如长江、黄河、雅鲁藏布江、印度河和恒河。这些河流不仅为高原地区提供了水源，还对下游地区的生态和经济产生了重要影响。高原上分布着众多湖泊，包括纳木错、玛旁雍错等，这些湖泊大多为高山冰川融水形成。
+
 ## 第二章 技术路线
 
 ### 2.1 技术路线概要
@@ -204,18 +212,39 @@ return FileResponse(output_path, filename=f"selected_{filename}.xlsx", media_typ
 
 
 
-
-#### 3.3.1 收集青藏高原的shp文件并在网页上展示
+#### 3.3.2 收集青藏高原的shp文件并在网页上展示
 
 访问
 ```
 https://zenodo.org/records/6432940
 ```
-下载这个数据集包含了新提出的泛藏高原（即高山亚洲）及其相邻山区的地理和地质GIS边界。这一地区包括藏高原及其三个相邻的山脉：喜马拉雅山脉、横断山脉和中亚山脉。数据集旨在通过提供明确的地理尺度来促进跨学科的比较和综合研究，并确保研究结果的可重复性。
+这个数据集包含了新提出的泛藏高原（即高山亚洲）及其相邻山区的地理和地质GIS边界。这一地区包括藏高原及其三个相邻的山脉：喜马拉雅山脉、横断山脉和中亚山脉。数据集旨在通过提供明确的地理尺度来促进跨学科的比较和综合研究，并确保研究结果的可重复性。
 
 数据集包括三个子集，并提供了三种数据格式（.shp，.geojson和.kmz）。shapefile格式的数据是通过ArcGIS Pro生成的，其他两种格式是由shapefile转换而来的。
 
 
+下载之后可以通过leaflet库展示青藏高原所在的区域。
+
+前端使用React开发，后端代码参考
+
+```python
+@app.get("/geojson")
+async def get_geojson():
+    try:
+        async with aiofiles.open(geojson_file_path, mode='r') as f:
+            contents = await f.read()
+            geojson_data = json.loads(contents)
+        
+        # 提取并转换坐标
+        coordinates = geojson_data['features'][0]['geometry']['coordinates'][0]
+        converted_coordinates = [[coord[1], coord[0]] for coord in coordinates]
+        
+        return {"coordinates": converted_coordinates}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error loading GeoJSON file: {str(e)}")
+
+```
+![alt text](pic/image.png)
 
 #### 3.3.2 批量下载worldClimate数据
 
