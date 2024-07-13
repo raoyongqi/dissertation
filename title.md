@@ -40,7 +40,7 @@ Through collecting and preprocessing data related to plant diseases, including m
 
 Anne Ebeling等的研究通过对不同植物类型在不同年均温度和年均降水条件下受病害和无脊椎动物损害的分析，揭示了它们对环境变化的不同响应。研究发现，杂草在年均降水增加和年均温度升高的条件下，表现出显著的病害和无脊椎动物损害增加的趋势，尤其在高温高湿的环境中更为明显。相反，草类和豆科植物对这些因素的响应相对稳定，没有显示出明显的损害程度增加趋势。
 
-
+Deepa S. Pureswaran等人探讨了气候变化对森林害虫的影响。他们综合了2013-2017年间的最新文献，包括之前的相关综述，深入讨论了气候变化如何影响昆虫的分布范围、数量、森林生态系统以及昆虫群落的影响。研究发现，气候变化可以促进害虫爆发或破坏食物链，从而减少害虫爆发的严重程度。通过广义线性模型和大尺度空间分析，研究揭示了气候变化对不同昆虫类群的地理分布和生态影响。
 
 ## 第二章 技术路线
 
@@ -81,6 +81,10 @@ React 的核心思想是组件化开发，将用户界面拆分为独立的组�
 React 的另一个显著特点是虚拟 DOM（Virtual DOM）。它通过在内存中维护一个虚拟 DOM 树来实现高效的 DOM 更新，通过比较前后两次虚拟 DOM 的差异，最小化了实际 DOM 操作的次数，从而提升了性能。
 React 不仅可以用于 Web 应用程序的开发，还可以用于移动应用程序开发（React Native）以及静态网站的生成（Next.js）。由于其灵活性和高效性，React 在现代前端开发中得到了广泛应用，并成为了构建复杂用户界面的首选工具之一。
 
+新建一个react项目
+```bash
+npx create-react-app my-react-app
+```
 
 ### 2.3后端
 
@@ -88,11 +92,18 @@ React 不仅可以用于 Web 应用程序的开发，还可以用于移动应用
 后端指的是网页后台中配合前端完成数据处理，和保存到数据库的一系列内容，常用的后端有Java开发的spring 系列后端 ，js后端node.js，和python的fastapi。
 
 #### 2.3.2 fastapi
-在本文中，后端开发使用Python的FastAPI框架来构建RESTful API服务。这些服务负责接收前端发送的数据请求、进行数据预处理、调用集成学习模型进行预测，并将结果返回前端。后端的另一个重要功能是管理模型的训练和更新。训练数据可以存储在关系型数据库如PostgreSQL或非关系型数据库如MongoDB中。
+在本文中，后端开发使用Python的FastAPI框架来构建RESTful API服务。FastAPI 是一个现代、快速（高性能）、基于标准 Python 类型提示的 Web 框架，用于构建 APIs，采用了 Python 3.6+ 版本。fastapi具有与 Node.js 和 Go 相媲美的高性能，因为它基于 Starlette 和 Pydantic 这两个高性能工具。在实际应用中，FastAPI 用于处理前端发送的数据请求，进行数据预处理并调用集成学习模型进行预测。例如，可以定义一个端点接收 JSON 格式的输入数据，进行数据预处理后调用模型进行预测，最后将预测结果返回前端。
+
+
+
+```bash
+pip install fastapi uvicorn
+```
+
 
 #### 2.3.3 mysql
 
-在本文中，使用mysql将数据保存在数据库中。
+FastAPI 与关系型数据库（如PostgreSQL）或非关系型数据库（如MongoDB）配合使用，可以有效管理和存储训练数据。训练数据可以存储在关系型数据库如PostgreSQL或非关系型数据库如MongoDB中，在本文中使用mysql将数据保存在数据库中。后端的另一个重要功能是管理模型的训练和更新。
 MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结构化查询语言（SQL）来访问、管理和操作数据库。MySQL 以其可靠性、可扩展性和易用性著称，已成为用于 Web 应用程序的最流行数据库之一，广泛应用于从小型初创公司到大型企业的各类组织。MySQL 支持多用户访问多个数据库，使其成为各种应用需求的多功能解决方案。
 它基于客户端-服务器模型，服务器负责处理数据库管理任务，客户端与服务器接口以执行查询。MySQL 高度兼容多种操作系统，包括 Windows、Linux 和 macOS，并与许多编程语言无缝集成，如 PHP、Python 和 Java。
 该数据库提供强大的功能，如符合 ACID 的事务、复制、集群和对大规模数据库的支持，确保数据完整性、高可用性和性能。MySQL 的架构旨在处理各种数据库任务，从简单的读密集型操作到复杂的写密集型事务。其性能优化工具和技术，如索引、缓存和查询优化，有助于高效的数据处理。
@@ -124,7 +135,9 @@ MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结
 
 包括直接下载，调用api，和直接爬取数据。
 
+### 2.6 数据的可视化方法
 
+Highcharter是一个用于R语言的高交互性图表库，它是Highcharts JavaScript库及其模块的封装。Highcharts是一个非常灵活和可定制的JavaScript图表库，具有强大的API。
 
 ## 第三章 预处理
 
@@ -138,7 +151,11 @@ MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结
 
 
 ### 3.2 特征选择
+
+
 #### 3.2.1 需求分析
+
+
 我们拿到的数据集，如果是excel支持的格式，
 往往包含很多列，但实际上用到的可能就只有几列。
 因此，我们往往要选取数据集的子列作为我们分析的内容。
@@ -183,11 +200,49 @@ return FileResponse(output_path, filename=f"selected_{filename}.xlsx", media_typ
 
 
 
-### 3.2 收集数据
+### 3.3 收集数据
 
 
-我们可以使用R调用高德地图的Api和爬取阿里云地图的json文件。
-更加清晰地展示我们的样点信息。
+
+
+#### 3.3.1 收集青藏高原的shp文件并在网页上展示
+
+访问
+```
+https://zenodo.org/records/6432940
+```
+下载这个数据集包含了新提出的泛藏高原（即高山亚洲）及其相邻山区的地理和地质GIS边界。这一地区包括藏高原及其三个相邻的山脉：喜马拉雅山脉、横断山脉和中亚山脉。数据集旨在通过提供明确的地理尺度来促进跨学科的比较和综合研究，并确保研究结果的可重复性。
+
+数据集包括三个子集，并提供了三种数据格式（.shp，.geojson和.kmz）。shapefile格式的数据是通过ArcGIS Pro生成的，其他两种格式是由shapefile转换而来的。
+
+
+
+#### 3.3.2 批量下载worldClimate数据
+
+
+```R
+remotes::install_github("brunomioto/WorldClimData")
+download_worldclim_data <- function(variables, period = "current", resolution = 10, folder_path = "./WorldClim_data") {
+  for (variable in variables) {
+    download_worldclim(
+      period = period,
+      variable = variable,
+      resolution = resolution,
+      folder_path = folder_path
+    )
+  }
+}
+library(WorldClimData)
+# 定义要下载的变量
+variables <- c("bio", "elev", "prec", "srad", "tavg", "tmax", "tmin", "vapr", "wind")
+
+# 调用函数下载所有变量的数据
+download_worldclim_data(variables, period = "current", resolution = 10, folder_path = "./WorldClim_data")
+```
+关于WorldClim的19种生物气候变量可参阅：
+```
+https://www.worldclim.org/data/bioclim.html.
+```
 
 
 
@@ -212,6 +267,11 @@ randomForest(formula, data=NULL, ..., subset, na.action=na.fail)
 
 
 #### 5.1 展示样点信息
+
+我们可以使用R调用高德地图的Api和爬取阿里云地图的json文件，更加清晰地展示我们的样点信息。这个图展示了青藏高原地区的样点分布情况，左侧的小图显示了中国的整体地图，并标出了青藏高原地区，右侧的放大图详细展示了青藏高原的地形和样点分布。颜色从绿色到棕色表示不同的海拔高度，黑色点表示样点位置。
+
+需要sf（用于处理地理空间数据）、raster（用于处理栅格数据）、ggplot2（用于绘图）以及maptools（用于地图处理）这几个R包。
+使用cowplot包或gridExtra包将两个图组合成一个图。
 
 
 ![alt text](pic/yangdai2.png)
