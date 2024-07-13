@@ -250,23 +250,64 @@ async def get_geojson():
 
 
 ```R
-remotes::install_github("brunomioto/WorldClimData")
-download_worldclim_data <- function(variables, period = "current", resolution = 10, folder_path = "./WorldClim_data") {
-  for (variable in variables) {
-    download_worldclim(
-      period = period,
-      variable = variable,
-      resolution = resolution,
-      folder_path = folder_path
-    )
-  }
+加载必要的包
+library(geodata)
+library(openxlsx)
+
+# 设置工作目录
+setwd("C:/Users/r/Desktop/r_climate/data")
+
+# 读取 Excel 文件中的经纬度数据
+data <- read.xlsx("lon_lat.xlsx", sheet = 1)
+names(data) <- tolower(names(data))
+
+# 检查是否包含 'lon' 和 'lat' 列
+if(!all(c('lon', 'lat') %in% names(data))) {
+  stop("Excel 文件需要包含 'lon' 和 'lat' 列")
 }
-library(WorldClimData)
-# 定义要下载的变量
+
+# 定义要下载的气候变量
 variables <- c("bio", "elev", "prec", "srad", "tavg", "tmax", "tmin", "vapr", "wind")
 
-# 调用函数下载所有变量的数据
-download_worldclim_data(variables, period = "current", resolution = 10, folder_path = "./WorldClim_data")
+# 定义一个函数来下载和提取单个样点的数据
+download_and_extract <- function(lon, lat, var, res = 10) {
+  clim_data <- geodata::worldclim_global(var = var, res = res, path = ".")
+  return(raster::extract(clim_data, matrix(c(lon, lat), ncol = 2)))
+}
+
+# 初始化结果数据框
+result <- data
+
+# 迭代每个气候变量，下载并提取数据
+for (var in variables) {
+  all_clim_values <- NULL
+  
+  for (i in 1:nrow(data)) {
+    lon <- data$lon[i]
+    lat <- data$lat[i]
+    
+    clim_values <- download_and_extract(lon, lat, var)
+    
+    if (is.null(all_clim_values)) {
+      all_clim_values <- clim_values
+    } else {
+      all_clim_values <- rbind(all_clim_values, clim_values)
+    }
+  }
+  
+  # 给提取到的数据添加前缀
+  colnames(all_clim_values) <- paste(var, colnames(all_clim_values), sep = "_")
+  
+  # 将提取到的数据与原始样点数据合并
+  result <- cbind(result, all_clim_values)
+}
+
+# 保存结果到新的 Excel 文件
+output_file_path <- "climate_data.xlsx"
+write.xlsx(result, output_file_path, row.names = FALSE)
+
+# 完成
+cat("气候数据已成功保存到", output_file_path)
 ```
 关于WorldClim的19种生物气候变量可参阅：
 ```
