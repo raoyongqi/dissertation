@@ -359,12 +359,65 @@ world climate数据集中包含了多种气象要素，如温度（tmax表示最
 ## 第四章 数据分析
 
 
-### 4.1 模型的构建
+### 4.1 随机森林变量重要性图输出与分析
+为了完成完成随机森林的构建，可以使用python的scikit-learn库来实现。
+群落病害相关性分析：重要变量的详细结果
+在分析群落活体病害严重度（ComminityDisease_Biotroph）、群落死体病害严重度（ComminityDisease_Necrotroph）、群落病害严重度间接效应（PL_indirect）和群落病害严重度直接效应（PL_direct）时，随机森林模型的重要性图揭示了一些关键变量。
+从图中可以看出，四个分析模型中，一些变量在病害严重度的影响上具有显著的权重。在图表中，红色柱子表示选择的变量，这些变量主要源于WorldClim数据。具体来看：
+ComminityDisease_Biotroph：在左上图中，'lon'（经度）和 'tmin_wc2.1_10m_tmin_02'（某一月份的最低温度）是两个重要变量，尤其是'lon'，其对活体病害严重度的重要性权重超过0.2，显示出明显的影响。
+ComminityDisease_Necrotroph（群落死体病害严重度）：右上图同样显示，'lon'（经度）和 'tmin_wc2.1_10m_tmin_02'（最低温度）占据了显著的权重。特别是 'tmin_wc2.1_10m_tmin_02'，其权重超过0.3，表明在死体病害严重度中温度因素起着重要作用。
+PL_direct（群落病害严重度直接效应）：在左下图中，经度和最低温度再次显示出高权重，'lon'的重要性接近0.2，而'tmin_wc2.1_10m_tmin_02'也表现出显著影响。PL_indirect（群落病害严重度间接效应）：右下图中，经度和最低温度继续占据主要位置，显示出相似的趋势。经度和'tmin_wc2.1_10m_tmin_02'的权重分别约为0.15和0.1。
+总的来看，这些图表展示了经度（lon）和最低温度（tmin_wc2.1_10m_tmin_02）在群落病害严重度的不同方面的重要性。研究表明，地理位置和气候条件（尤其是温度）对病害发生和发展有着关键影响。具体的WorldClim数据变量选择显示了气候数据在预测病害严重度中的关键作用，为进一步的生态学和病理学研究提供了重要参考。
+```python
+   
+def train_and_save_models():
 
-在R中可以加载randomForest包完成随机森林的构建
+    feature_df = pd.read_sql("SELECT * FROM uploaded_feature", engine)
+    feature_df = feature_df.drop(columns=["id"])  # 移除id列
+    label_df = pd.read_sql("SELECT * FROM uploaded_label", engine)
+    label_df = label_df.drop(columns=["id"])  # 移除id列
+
+    for label_column in label_df.columns:
+        X = feature_df
+        y = label_df[label_column]
+
+        model = RandomForestRegressor()
+        model.fit(X, y)
+
+        joblib.dump(model, f"{MODEL_DIR}/model_{label_column}.joblib")
+
+def load_models():
+    models = {}
+    for file in os.listdir(MODEL_DIR):
+        if file.endswith(".joblib"):
+            label = file.replace("model_", "").replace(".joblib", "")
+            models[label] = joblib.load(f"{MODEL_DIR}/{file}")
+    return models
+
+@app.get("/feature_importances")
+async def feature_importances() -> Dict[str, List]:
+    try:
+        if not os.listdir(MODEL_DIR):
+            train_and_save_models()
+
+        models = load_models()
+        feature_df = pd.read_sql("SELECT * FROM uploaded_feature", engine)
+        feature_df = feature_df.drop(columns=["id"])  # 移除id列
+        importances = []
+
+        for label, model in models.items():
+            feature_importance = [{"feature": feature, "importance": importance} for feature, importance in zip(feature_df.columns, model.feature_importances_)]
+            importances.append({"label": label, "importances": feature_importance})
+
+        return {"data": importances}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 ```
-randomForest(formula, data=NULL, ..., subset, na.action=na.fail)
-```
+![alt text](pic/importance.png)
+
+
+
+![alt text](pic/select_var.png)
 
 ## 第五章 可视化
 
