@@ -1,0 +1,6 @@
+markdown
+pdfkit
+weasyprint
+reportlab
+pypandoc
+beautifulsoup4
