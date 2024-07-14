@@ -108,7 +108,7 @@ npx create-react-app my-react-app
 pip install fastapi uvicorn
 ```
 
-
+![alt text](pic/fastapi.png)
 #### 2.3.3 mysql
 
 FastAPI 与关系型数据库（如PostgreSQL）或非关系型数据库（如MongoDB）配合使用，可以有效管理和存储训练数据。训练数据可以存储在关系型数据库如PostgreSQL或非关系型数据库如MongoDB中，在本文中使用mysql将数据保存在数据库中。后端的另一个重要功能是管理模型的训练和更新。
@@ -348,6 +348,7 @@ def fetch_data(db: Session = Depends(get_db)):
 ![alt text](pic/2ff7b7b5dd2adb623f82cfb9aac0cb7.png)
 
 world climate数据集中包含了多种气象要素，如温度（tmax表示最高温度，tmin表示最低温度，tavg表示平均气温）、生物量（bio）、太阳辐射（srad）、风速（wind）、降水量（prec）和相对湿度（vapr）等。每个变量都有多个不同的观测值，例如tmax_wc2.1_10m_tmax_01可能表示在特定高度（10m）上测量的最高温度数据。
+
 ![alt text](pic/image2.png)
 
 
