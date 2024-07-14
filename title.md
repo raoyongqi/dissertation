@@ -347,7 +347,7 @@ def fetch_data(db: Session = Depends(get_db)):
 
 ![alt text](pic/2ff7b7b5dd2adb623f82cfb9aac0cb7.png)
 
-world climate数据集中包含了多种气象要素，如温度（tmax表示最高温度，tmin表示最低温度，tavg表示平均气温）、生物量（bio）、太阳辐射（srad）、风速（wind）、降水量（prec）和相对湿度（vapr）等。每个变量都有多个不同的观测值，例如tmax_wc2.1_10m_tmax_01可能表示在特定高度（10m）上测量的最高温度数据。
+world climate数据集中包含了多种气象要素，如温度（tmax表示最高温度，tmin表示solar radiation，tavg表示平均气温）、生物量（bio）、太阳辐射（srad）、风速（wind）、降水量（prec）和相对湿度（vapr）等。每个变量都有多个不同的观测值，例如tmax_wc2.1_10m_tmax_01可能表示在特定高度（10m）上测量的最高温度数据。
 
 ![alt text](pic/image2.png)
 
@@ -364,10 +364,10 @@ world climate数据集中包含了多种气象要素，如温度（tmax表示最
 群落病害相关性分析：重要变量的详细结果
 在分析群落活体病害严重度（ComminityDisease_Biotroph）、群落死体病害严重度（ComminityDisease_Necrotroph）、群落病害严重度间接效应（PL_indirect）和群落病害严重度直接效应（PL_direct）时，随机森林模型的重要性图揭示了一些关键变量。
 从图中可以看出，四个分析模型中，一些变量在病害严重度的影响上具有显著的权重。在图表中，红色柱子表示选择的变量，这些变量主要源于WorldClim数据。具体来看：
-ComminityDisease_Biotroph：在左上图中，'lon'（经度）和 'tmin_wc2.1_10m_tmin_02'（某一月份的最低温度）是两个重要变量，尤其是'lon'，其对活体病害严重度的重要性权重超过0.2，显示出明显的影响。
-ComminityDisease_Necrotroph（群落死体病害严重度）：右上图同样显示，'lon'（经度）和 'tmin_wc2.1_10m_tmin_02'（最低温度）占据了显著的权重。特别是 'tmin_wc2.1_10m_tmin_02'，其权重超过0.3，表明在死体病害严重度中温度因素起着重要作用。
-PL_direct（群落病害严重度直接效应）：在左下图中，经度和最低温度再次显示出高权重，'lon'的重要性接近0.2，而'tmin_wc2.1_10m_tmin_02'也表现出显著影响。PL_indirect（群落病害严重度间接效应）：右下图中，经度和最低温度继续占据主要位置，显示出相似的趋势。经度和'tmin_wc2.1_10m_tmin_02'的权重分别约为0.15和0.1。
-总的来看，这些图表展示了经度（lon）和最低温度（tmin_wc2.1_10m_tmin_02）在群落病害严重度的不同方面的重要性。研究表明，地理位置和气候条件（尤其是温度）对病害发生和发展有着关键影响。具体的WorldClim数据变量选择显示了气候数据在预测病害严重度中的关键作用，为进一步的生态学和病理学研究提供了重要参考。
+ComminityDisease_Biotroph：在左上图中，'lon'（经度）和 'srad'（solar radiation）是两个重要变量，尤其是'lon'，其对活体病害严重度的重要性权重超过0.2，显示出明显的影响。
+ComminityDisease_Necrotroph（群落死体病害严重度）：右上图同样显示，'lon'（经度）和 'srad'（solar radiation）占据了显著的权重。特别是 'srad'，其权重超过0.3，表明在死体病害严重度中温度因素起着重要作用。
+PL_direct（群落病害严重度直接效应）：在左下图中，经度和solar radiation再次显示出高权重，'lon'的重要性接近0.2，而'srad'也表现出显著影响。PL_indirect（群落病害严重度间接效应）：右下图中，经度和solar radiation继续占据主要位置，显示出相似的趋势。经度和'srad'的权重分别约为0.15和0.1。
+总的来看，这些图表展示了经度（lon）和solar radiation（srad）在群落病害严重度的不同方面的重要性。研究表明，地理位置和气候条件（尤其是温度）对病害发生和发展有着关键影响。具体的WorldClim数据变量选择显示了气候数据在预测病害严重度中的关键作用，为进一步的生态学和病理学研究提供了重要参考。
 ```python
    
 def train_and_save_models():
@@ -413,10 +413,8 @@ async def feature_importances() -> Dict[str, List]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 ```
+
 ![alt text](pic/importance.png)
-
-
-
 ![alt text](pic/select_var.png)
 
 ## 第五章 可视化
