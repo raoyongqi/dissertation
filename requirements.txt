@@ -4,3 +4,4 @@ weasyprint
 reportlab
 pypandoc
 beautifulsoup4
+requests

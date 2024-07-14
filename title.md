@@ -144,8 +144,7 @@ MySQL 是一种开源的关系型数据库管理系统（RDBMS），它使用结
 包括直接下载，调用api，和直接爬取数据。
 
 ### 2.6 数据的可视化方法
-
-Highcharter是一个用于R语言的高交互性图表库，它是Highcharts JavaScript库及其模块的封装。Highcharts是一个非常灵活和可定制的JavaScript图表库，具有强大的API。
+前端有许多优秀的库，比如说leaflet，echarts，可以用于展示图片。
 
 ## 第三章 预处理
 
