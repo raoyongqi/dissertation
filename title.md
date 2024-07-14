@@ -317,6 +317,39 @@ https://www.worldclim.org/data/bioclim.html.
 
 
 
+### 3.3.3 使用箱线图观察数据分布
+
+箱线图的中间线通常表示中位数，而箱子的上下边缘则分别表示第一四分位数和第三四分位数，箱子外的“须”则可以表示数据的最小值和最大值，或者表示异常值，这些信息有助于我们更深入地理解数据的分布情况。
+
+前端结合echarts可以展示一系列代表各种植物病害严重程度指标的箱线图。这些指标包括群落病害严重度、群落病害严重度直接效应和群落死体病害严重度等。这些图表植物病害严重程度的分布和变异性。
+
+后端代码参考
+```python
+
+@app.get("/fetch_label_box")
+def fetch_data(db: Session = Depends(get_db)):
+    try:
+        UploadedLabel = Base.classes.uploaded_label
+        if not UploadedLabel:
+            raise HTTPException(status_code=404, detail="No mysql upload_label table")
+        data = db.query(UploadedLabel).all()
+        if not data:
+            raise HTTPException(status_code=404, detail="No data found")
+        result = [item.__dict__ for item in data]
+        for item in result:
+            item.pop('_sa_instance_state', None)
+        return {"columns": list(result[0].keys()), "rows": result}
+    finally:
+        db.close()
+
+
+```
+
+![alt text](pic/2ff7b7b5dd2adb623f82cfb9aac0cb7.png)
+
+world climate数据集中包含了多种气象要素，如温度（tmax表示最高温度，tmin表示最低温度，tavg表示平均气温）、生物量（bio）、太阳辐射（srad）、风速（wind）、降水量（prec）和相对湿度（vapr）等。每个变量都有多个不同的观测值，例如tmax_wc2.1_10m_tmax_01可能表示在特定高度（10m）上测量的最高温度数据。
+![alt text](pic/image2.png)
+
 
 
 
