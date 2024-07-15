@@ -5,3 +5,5 @@ reportlab
 pypandoc
 beautifulsoup4
 requests
+fpdf
+PyPDF2
