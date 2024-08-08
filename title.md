@@ -324,16 +324,97 @@ https://www.worldclim.org/data/bioclim.html.
 根据WorldClim数据集的文献，这类气候数据通常通过全球气象站点的观测数据进行插值，生成高分辨率的气候图层。这些数据广泛用于生态和环境科学研究，如物种分布模型、气候变化影响评估等。高分辨率气候图层能够提供详细的区域气候信息，使得研究人员可以在较小的地理尺度上进行精细化分析，从而获得更精确的结果。
 
 总体来看，这些气候变量的空间分布图不仅展示了不同时间点和气候变量的空间变化，还为进一步的气候研究提供了宝贵的数据支持。通过这些图，可以更直观地理解和分析气候变化对不同区域的影响，为相关领域的决策提供科学依据。
-这张图展示了某一地理区域的多个气候变量的空间分布情况。图像中包含了6个不同的气候变量，每个变量分别在一个子图中呈现，通过观察图像，我们可以发现青藏高原的草地具有较高的海拔和较低的年最高温等。结合WorldClim数据集（可参见WorldClim官方网站），这些变量反映了不同的气候特征。通过颜色的渐变可以看出不同变量在不同区域的变化情况。这些数据有助于理解该区域的气候特征，并可用于气候研究、生态模型以及环境管理等领域
+这张图展示了某一地理区域的多个气候变量的空间分布情况。图像中包含了2个不同的气候变量，每个变量分别在一个子图中呈现，通过观察图像，我们可以发现青藏高原的草地具有较高的海拔和较低的年最高温等。结合WorldClim数据集（可参见WorldClim官方网站），这些变量反映了不同的气候特征。通过颜色的渐变可以看出不同变量在不同区域的变化情况。这些数据有助于理解该区域的气候特征，并可用于气候研究、生态模型以及环境管理等领域
 
 
 
-![alt text](pic/world_clim.png)
-### 3.3.3 使用箱线图观察数据分布
+![alt text](pic/worldClim.png)
+
+
+### 3.3.3 土壤数据处理
+
+
+该文件讨论了协调世界土壤数据库 （HWSD） 的创建和目的。该数据库是 FAO（联合国粮食及农业组织）和 IIASA（国际应用系统分析研究所）以及其他合作伙伴（如 ISRIC – 世界土壤信息和欧洲土壤局网络 （ESBN） 的合作成果。
+
+在全面更新全球农业生态区研究的背景下，联合国粮食及农业组织（FAO）和国际应用系统分析研究所（IIASA）认识到，迫切需要整合全球现有的区域和国家土壤信息更新，并将其与1971-1981年间编制的、但大部分已不再反映当前土壤资源实际状况的1:5,000,000比例尺FAO-UNESCO世界土壤图相结合。为此，他们与主要负责开发区域土壤和地形数据库（SOTER）的国际土壤参考资料和信息中心（ISRIC）以及近年来对欧洲和欧亚北部土壤信息进行重大更新的欧洲土壤局网络（ESBN）建立了合作伙伴关系。此外，通过与中国科学院土壤科学研究所的合作，将1:1,000,000比例尺的中国土壤图纳入其中，成为重要补充。
+
+为了以统一的方式估算土壤属性，研究团队利用实际土壤剖面数据和土壤传递规则的开发，与ISRIC和ESBN合作，借鉴了WISE土壤剖面数据库以及Batjes等人（1997; 2002）和Van Ranst等人（1995）的早期工作。国际应用系统分析研究所（IIASA）负责确保数据的和谐化和在地理信息系统（GIS）中的输入，而所有合作伙伴则负责数据库的验证。
+
+该产品的主要目的是为模型构建者提供实用工具，并为农业生态区划、粮食安全和气候变化影响等前瞻性研究服务。因此，选择了大约1公里（30弧秒×30弧秒）的分辨率。生成的栅格数据库由21,600行和43,200列组成，其中包含2.21亿个网格单元，覆盖了全球陆地。
+
+在协调一致的全球土壤数据库（HWSD）中，识别出超过16,000个不同的土壤制图单元，这些单元与协调一致的属性数据相关联。标准化的结构允许将属性数据与GIS相结合，以显示或查询土壤单元的组成以及选定土壤参数的特征（如有机碳、pH值、蓄水能力、土壤深度、阳离子交换能力、粘土含量、总可交换养分、石灰和石膏含量、钠交换百分比、盐度、质地类别和粒度分布）。
+
+然而，所提供信息的可靠性存在差异：仍使用世界土壤图的部分地区（如北美、澳大利亚、西非（不包括塞内加尔和冈比亚）和南亚）被认为可靠性较低，而大多数由SOTER数据库覆盖的地区（如南部和东部非洲、拉丁美洲和加勒比地区、中欧和东欧）被认为具有最高可靠性。
+
+
+Harmonized World Soil Database
+
+In the context of a complete update of the global agro-ecological zones study, FAO and IIASA 
+recognized that there was an urgent need to combine existing regional and national updates of soil 
+information worldwide and incorporate these with the information contained within the 1:5 000 000 
+scale FAO-UNESCO Soil Map of the World (FAO, 1971-1981), which was in large parts no longer 
+reflecting the actual state of the soil resources. In order to do this, partnerships were sought with the 
+ISRIC – World Soil Information who had been largely responsible for the development of regional 
+Soil and Terrain databases (Sombroek, 1984) and with the European Soil Bureau Network (ESBN) 
+who had undertaken a major update of soil information for Europe and northern Eurasia in recent 
+years (ESB, 2004). The incorporation of the 1:1,000,000 scale Soil Map of China (Shi et al., 2004) 
+was an essential addition obtained through the cooperation with the Institute of Soil Science, Chinese 
+Academy of Sciences. In order to estimate soil properties in a harmonized way, the use of actual soil 
+profile data and the development of pedotransfer rules was undertaken in cooperation with ISRIC and 
+ESBN drawing on the WISE soil profile database and earlier work of Batjes et al. (1997; 2002) and 
+Van Ranst et al.(1995).. 
+The harmonization and data entry in a GIS was assured at the International Institute for Applied 
+System Analysis (IIASA) and verification of the database was undertaken by all partners. As the 
+product has as its main aim to be of practical use to modelers and is to serve perspective studies in 
+agro-ecological zoning, food security and climate change impacts (among others) a resolution of about 
+1 km (30 arc seconds by 30 arc seconds) was selected1
+. The resulting raster database consists of 21600 
+rows and 43200 columns, of which 221 million grid cells cover the globe’s land territory. 
+Over 16000 different soil mapping units are recognized in the Harmonized World Soil Database 
+(HWSD). which are linked to harmonized attribute data. Use of a standardized structure allows linkage 
+of the attribute data with GIS to display or query the composition in terms of soil units and the 
+characterization of selected soil parameters (organic Carbon, pH, water storage capacity, soil depth, 
+cation exchange capacity of the soil and the clay fraction, total exchangeable nutrients, lime and 
+gypsum contents, sodium exchange percentage, salinity, textural class and granulometry). 
+Reliability of the information presented here is variable: the parts of the database that still make use of 
+the Soil Map of the World such as North America, Australia, West Africa (excluding Senegal and 
+Gambia) and South Asia are considered less reliable, while most of the areas covered by SOTER 
+databases are considered to have the highest reliability (Southern and Eastern Africa, Latin America 
+and the Caribbean, Central and Eastern Europe). 
+Further expansion and update of the HWSD is foreseen for the near future, notably with the excellent 
+databases held in the USA: Natural Resources Conservation Service US General Soil Map 
+(STATSGO) http://www.ncgc.nrcs.usda.gov/products/datasets/statsgo, Canada: Agriculture and AgriFood Canada: The National Soil Database (NSDB) http://sis.agr.gc.ca/cansis/nsdb and Australia: 
+CSIRO, aclep, natural Heritage Trust and National Land and Water Resources Audit: ASRIS 
+http://www.asris.csiro.au/index_other.html, and with the recently released SOTER database for 
+Central Africa (FAO/ISRIC/University Gent, 2007). 
+The database content is discussed in Chapter 2 and the harmonization process in Chapter 3. Annex 1 
+gives a historical overview of the development of the Soil Map of the World, the Soil and Terrain 
+Databases (SOTER), the Geographic Database for Europe, the Soil Map of China, and ISRIC-WISE 
+database, while Annex 2 to 4 give detailed instructions on how to use the GIS software and the viewer. 
+ 
+1 Note: Original data were mapped respectively at scales of 1:5,000,000 for the Soil Map of the World and 
+between 1:1,000,000 and 1:5,000,000 for the various SOTER regional studies and 1:1,000,000 the European Soil 
+Map and the Soil Map of China. The pixel size has been selected to ensure compatibility with important 
+inventories such as the slope and aspect database (based on 90 m resolution SRTM data) and GLC 2000/2005 
+land cover data available at 30 arc seconds. The HWSD by necessity presents therefore multiple grid cells with 
+identical attributes occurring in individual soil mapping units as provided on the original vector map
+MU_GLOBAL - the harmonized soil mapping unit identifier of HWSD providing the link to 
+the GIS layer; 
+− MU_SOURCE1 and MU_SOURCE2- the mapping unit identifiers in the source database; 
+− SEQ – the sequence of the soil unit in the soil mapping unit composition; 
+− SHARE - % of the soil unit/topsoil texture combination in the soil mapping unit; and the 
+− Soil unit symbol using the FAO-74 classification system or the FAO-90 classification system 
+(SU_SYM74 resp. SU_SYM90) or FAO-85 interim system (SU_SYM85).
+![alt text](pic/1722382718420.jpg)
+![alt text](pic/1722382670272.jpg)
+![alt text](pic/761ad8d49e0b335943e63818403e0f5.png)
+![alt text](pic/image.png)
+### 3.3.4 使用箱线图观察数据分布
 
 箱线图的中间线通常表示中位数，而箱子的上下边缘则分别表示第一四分位数和第三四分位数，箱子外的“须”则可以表示数据的最小值和最大值，或者表示异常值，这些信息有助于我们更深入地理解数据的分布情况。
 
 前端结合echarts可以展示一系列代表各种植物病害严重程度指标的箱线图。这些指标包括群落病害严重度、群落病害严重度直接效应和群落死体病害严重度等。这些图表植物病害严重程度的分布和变异性。
+
 
 后端代码参考
 ```python
@@ -357,14 +438,12 @@ def fetch_data(db: Session = Depends(get_db)):
 
 ```
 
-![alt text](pic/2ff7b7b5dd2adb623f82cfb9aac0cb7.png)
 
+![alt text](pic/boxplot.png)
 world climate数据集中包含了多种气象要素，如温度（tmax表示最高温度，tmin表示solar radiation，tavg表示平均气温）、生物量（bio）、太阳辐射（srad）、风速（wind）、降水量（prec）和相对湿度（vapr）等。每个变量都有多个不同的观测值，例如tmax_wc2.1_10m_tmax_01可能表示在特定高度（10m）上测量的最高温度数据。
 
+
 ![alt text](pic/image2.png)
-
-
-
 
 
 
@@ -426,8 +505,7 @@ async def feature_importances() -> Dict[str, List]:
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
 ```
 
-![alt text](pic/importance.png)
-![alt text](pic/select_var.png)
+
 
 ## 第五章 可视化
 
@@ -451,7 +529,9 @@ async def feature_importances() -> Dict[str, List]:
 ```
 ggplot(data = NULL, mapping = aes(), ..., environment = parent.frame())
 ```
-
+### 5.1 结果
+结果
+![alt text](pic/result.png)
 
 
 ## 参考文献
